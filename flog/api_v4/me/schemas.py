@@ -18,3 +18,9 @@ class BasicProfileEditSchema(Schema):
 
 class AvatarEditSchema(Schema):
     avatar_url = Url()
+
+
+class AboutEditSchema(Schema):
+    about_me = String(
+        validate=validate.Length(0, 250)
+    )

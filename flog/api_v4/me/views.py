@@ -1,6 +1,10 @@
 from apiflask import APIBlueprint
 from flask import g
-from .schemas import BasicProfileEditSchema, AvatarEditSchema
+from .schemas import (
+    BasicProfileEditSchema,
+    AvatarEditSchema,
+    AboutEditSchema
+)
 from ..schemas import PrivateUserOutputSchema
 from ...extensions import auth, db
 from ...models import User
@@ -68,5 +72,18 @@ def edit_avatar(data):
     """
     me: User = g.current_user
     me.custom_avatar_url = data["avatar_url"]
+    db.session.commit()
+    return {"message": "ok"}, 200
+
+
+@me_bp.post("/edit/about/")
+@auth.login_required
+@me_bp.input(AboutEditSchema)
+def edit_about_me(data):
+    """
+    edit self description
+    """
+    me: User = g.current_user
+    me.about_me = data["about_me"]
     db.session.commit()
     return {"message": "ok"}, 200
