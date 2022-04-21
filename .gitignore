@@ -109,3 +109,6 @@ venv.bak/
 
 # db
 *.sqlite3
+
+# pdm stuff
+.pdm.toml
