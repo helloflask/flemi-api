@@ -9,7 +9,6 @@ from .api_v4 import (
 )
 from .extensions import (
     db,
-    login_manager,
     migrate
 )
 from .commands import register_commands
@@ -47,7 +46,6 @@ def register_config(app: Flask, config_name: str) -> None:
 
 def register_extensions(app: Flask, db) -> None:
     db.init_app(app=app)
-    login_manager.init_app(app=app)
     migrate.init_app(app=app, db=db)
 
 

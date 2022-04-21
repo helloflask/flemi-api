@@ -7,10 +7,9 @@ import hashlib
 from authlib.jose import jwt
 from datetime import datetime, timedelta
 from flask import current_app, url_for
-from flask_login import UserMixin, AnonymousUserMixin
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
-from .extensions import db, login_manager
+from .extensions import db
 from .shop_items import items
 
 
@@ -287,28 +286,12 @@ class Group(db.Model):
     messages = db.relationship("Message", back_populates="group")
     private = db.Column(db.Boolean, default=False)
 
-    def generate_join_token(self, expiration: int = 3600 * 24 * 30):
-        """
-        Generate the token to join a group
-        """
-        s = Serializer(current_app.config["SECRET_KEY"], expires_in=expiration)
-        return s.dumps({"group_id": self.id}).decode("utf-8")
-
     def delete(self):
         """
         Delete a group.
         """
         db.session.delete(self)
         db.session.commit()
-
-    @staticmethod
-    def verify_join_token(token):
-        s = Serializer(current_app.config["SECRET_KEY"])
-        try:
-            data = s.loads(token.encode("utf-8"))
-        except:
-            return None
-        return Group.query.get(data.get("group_id"))
 
 
 class Message(db.Model):
@@ -325,7 +308,7 @@ class Message(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     """
     User model.
     """
@@ -425,31 +408,6 @@ class User(db.Model, UserMixin):
             self.clicks_today = 0
         self.last_seen = now
         db.session.commit()
-
-    def generate_confirmation_token(self, expiration=3600):
-        s = Serializer(current_app.config["SECRET_KEY"], expiration)
-        return s.dumps({"confirm": self.id}).decode("utf-8")
-
-    @staticmethod
-    def from_confirmation_token(token: str):
-        s = Serializer(current_app.config["SECRET_KEY"])
-        try:
-            data = s.loads(token.encode("utf-8"))
-        except:
-            return None
-        return User.query.get(data.get("confirm"))
-
-    def confirm(self, token):
-        s = Serializer(current_app.config["SECRET_KEY"])
-        try:
-            data = s.loads(token.encode("utf-8"))
-        except:
-            return False
-        if data.get("confirm") != self.id:
-            return False
-        self.confirmed = True
-        db.session.add(self)
-        return True
 
     def gen_auth_api_token(self, expires=30*3600*24):
         header = {"alg": "HS256"}
@@ -685,7 +643,7 @@ class User(db.Model, UserMixin):
         return sum([len(post.collectors) for post in self.posts])
 
 
-class AnonymousUser(AnonymousUserMixin):
+class AnonymousUser():
     def can(self, perm):
         return False
 

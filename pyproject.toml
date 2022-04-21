@@ -1,0 +1,23 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "rice0208", email = "riceforever0208@outlook.com"},
+]
+dependencies = [
+    "apiflask>=0.12.0",
+    "flask-sqlalchemy>=2.5.1",
+    "flask-migrate>=3.1.0",
+    "authlib>=1.0.1",
+    "bleach>=5.0.0",
+    "faker>=13.3.5",
+]
+requires-python = ">=3.9"
+license = {text = "MIT"}
+
+[tool.pdm]
+
+[build-system]
+requires = ["pdm-pep517>=0.12.0"]
+build-backend = "pdm.pep517.api"
