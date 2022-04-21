@@ -77,8 +77,6 @@ def register_commands(app: Flask, db):  # noqa: C901
             # so I have to init the database like this.
             db.create_all()
             stamp()
-        if os.system("pybabel compile -d flog/translations"):
-            raise RuntimeError("Error: Compiling failed.")
 
     @app.cli.group()
     def translate():

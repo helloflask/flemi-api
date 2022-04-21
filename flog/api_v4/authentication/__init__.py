@@ -1,1 +1,1 @@
-from .views import api_auth_bp
+from .views import auth_bp

@@ -19,7 +19,7 @@ def create_app(config_name=None) -> Flask:
     app = APIFlask("flog-api")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
     register_config(app=app, config_name="development")
-    register_extensions(app=app)
+    register_extensions(app=app, db=db)
     register_blueprints(app=app)
     register_commands(app=app, db=db)
     return app
@@ -29,14 +29,15 @@ def register_config(app: Flask, config_name: str) -> None:
     app.config.from_object(config[config_name])
 
 
-def register_extensions(app: Flask) -> None:
+def register_extensions(app: Flask, db) -> None:
     db.init_app(app=app)
     login_manager.init_app(app=app)
-    migrate.init_app(app=app)
+    migrate.init_app(app=app, db=db)
 
 
 def register_blueprints(app: Flask) -> None:
-    app.register_blueprint(api_v4.api_auth_bp)
+    app.register_blueprint(api_v4.auth_bp)
+    app.register_blueprint(api_v4.me_bp)
 
 
 def register_context(app: Flask) -> None:

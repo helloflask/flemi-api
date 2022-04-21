@@ -382,6 +382,8 @@ class User(db.Model, UserMixin):
     default_status = db.Column(db.String(64), default="online")
     # online, idle, focus, offline
 
+    remote_addr = db.Column(db.String(), default="")
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.email is not None and self.avatar_hash is None:
@@ -449,23 +451,24 @@ class User(db.Model, UserMixin):
         db.session.add(self)
         return True
 
-    def gen_auth_api_token(self):
-        header = {"alg": "RS256"}
+    def gen_auth_api_token(self, expires=30*3600*24):
+        header = {"alg": "HS256"}
         payload = {
-            "id": self.id,
-            "expires": time()
+            "uid": self.id,
+            "expires": time() + expires
         }
-        secret = current_app.config["SECRET_KEY"]
-        return jwt.encode(header, payload, secret)
+        token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
+        return token
 
     @staticmethod
     def verify_auth_token_api(token: str):
-        s = Serializer(current_app.config["SECRET_KEY"])
         try:
-            data = s.loads(token.encode("ascii"))
-        except:
+            data = jwt.decode(token.encode("ascii"), current_app.config["SECRET_KEY"])
+            if data.get("expires") > time():
+                return User.query.get(data.get("uid"))    # None if user does not exist
+            raise Exception        # trigger "except" to return None
+        except:                    # either by decoding failure or by token expiration
             return None
-        return User.query.get(data.get("id"))
 
     def delete(self):
         db.session.delete(self)

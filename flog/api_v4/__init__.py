@@ -1,1 +1,2 @@
-from .authentication import api_auth_bp
+from .authentication import auth_bp
+from .me import me_bp
