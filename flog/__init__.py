@@ -2,6 +2,11 @@ from apiflask import APIFlask
 from flask import Flask
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
+from .api_v4 import (
+    api_v4_bp,
+    auth_bp as v4_auth_bp,
+    me_bp as v4_me_bp
+)
 from .extensions import (
     db,
     login_manager,
@@ -10,7 +15,7 @@ from .extensions import (
 from .commands import register_commands
 from .models import User, Post, Group, Message, Column
 from .settings import config
-from . import api_v4
+from .utils import get_all_remote_addr
 
 
 def create_app(config_name=None) -> Flask:
@@ -18,10 +23,21 @@ def create_app(config_name=None) -> Flask:
         config_name = os.getenv("FLASK_CONFIG", "development")
     app = APIFlask("flog-api")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
+
+    @app.get("/")
+    def index():
+        """
+        help API of the app
+        """
+        return {
+            "/v4/": "version 4.x of flog web API"
+        }
+
     register_config(app=app, config_name="development")
     register_extensions(app=app, db=db)
     register_blueprints(app=app)
     register_commands(app=app, db=db)
+    register_context(app=app)
     return app
 
 
@@ -36,8 +52,9 @@ def register_extensions(app: Flask, db) -> None:
 
 
 def register_blueprints(app: Flask) -> None:
-    app.register_blueprint(api_v4.auth_bp)
-    app.register_blueprint(api_v4.me_bp)
+    app.register_blueprint(api_v4_bp)
+    app.register_blueprint(v4_auth_bp)
+    app.register_blueprint(v4_me_bp)
 
 
 def register_context(app: Flask) -> None:
@@ -49,5 +66,6 @@ def register_context(app: Flask) -> None:
             Post=Post,
             Group=Group,
             Message=Message,
-            Column=Column
+            Column=Column,
+            get_all_remote_addr=get_all_remote_addr,
         )

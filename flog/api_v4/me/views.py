@@ -28,7 +28,8 @@ def help():
     return {
         "/": "profile of the current user",
         "/edit/basic/": "edit username, email and name",
-        "/edit/avatar/": "change avatar"
+        "/edit/avatar/": "change avatar",
+        "/help/": "help API of blueprint"
     }
 
 

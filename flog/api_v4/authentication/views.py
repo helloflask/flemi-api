@@ -25,12 +25,14 @@ def verify_token(token: str):
     return None
 
 
+@auth_bp.get("/")
 @auth_bp.get("/help/")
 def help():
     """
     help API of blueprint
     """
     return {
+        "/help": "help API of blueprint",
         "/login": "sign in and get API auth token",
         "/register": "create a new account"
     }
