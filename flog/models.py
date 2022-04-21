@@ -657,10 +657,3 @@ class AnonymousUser():
 
     def is_administrator(self):
         return False
-
-
-login_manager.anonymous_user = AnonymousUser
-
-@login_manager.user_loader
-def user_loader(id: int):
-    return User.query.get(id)
