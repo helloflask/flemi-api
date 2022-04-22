@@ -24,7 +24,7 @@ def self_profile():
     return me
 
 
-@me_bp.get("/help/")
+@me_bp.get("/help")
 def help():
     """
     help API of blueprint
@@ -37,7 +37,7 @@ def help():
     }
 
 
-@me_bp.post("/edit/basic/")
+@me_bp.post("/edit/basic")
 @auth.login_required
 @me_bp.input(BasicProfileEditSchema)
 def edit_basic(data):
@@ -63,7 +63,7 @@ def edit_basic(data):
     return {"message": "ok"}, 200
 
 
-@me_bp.post("/edit/avatar/")
+@me_bp.post("/edit/avatar")
 @auth.login_required
 @me_bp.input(AvatarEditSchema)
 def edit_avatar(data):
@@ -76,7 +76,7 @@ def edit_avatar(data):
     return {"message": "ok"}, 200
 
 
-@me_bp.post("/edit/about/")
+@me_bp.post("/edit/about")
 @auth.login_required
 @me_bp.input(AboutEditSchema)
 def edit_about_me(data):

@@ -1,7 +1,5 @@
 from apiflask import APIBlueprint, abort
-from authlib.jose import jwt
-from functools import wraps
-from flask import request, current_app, g
+from flask import request, g
 from flask_cors import CORS
 from .schemas import LoginSchema, RegisterSchema
 from ...models import User
@@ -26,7 +24,7 @@ def verify_token(token: str):
 
 
 @auth_bp.get("/")
-@auth_bp.get("/help/")
+@auth_bp.get("/help")
 def help():
     """
     help API of blueprint
@@ -38,7 +36,7 @@ def help():
     }
 
 
-@auth_bp.post("/login/")
+@auth_bp.post("/login")
 @auth_bp.input(LoginSchema, location="form")
 def login(data):
     """
@@ -56,7 +54,7 @@ def login(data):
         abort(403)
 
 
-@auth_bp.post("/register/")
+@auth_bp.post("/register")
 @auth_bp.input(RegisterSchema, location="form")
 def register(data):
     """
