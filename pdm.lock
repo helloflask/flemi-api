@@ -105,6 +105,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "flask-cors"
+version = "3.0.10"
+summary = "A Flask extension adding a decorator for CORS support"
+dependencies = [
+    "Flask>=0.9",
+    "Six",
+]
+
+[[package]]
 name = "flask-httpauth"
 version = "4.6.0"
 summary = "HTTP authentication for Flask routes"
@@ -280,7 +289,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "3.1"
-content_hash = "sha256:713d0e05aa3818b750ab8c38b2b33e04746f0374b891e939166815dd8cfdb33f"
+content_hash = "sha256:2cfb0873be4c0598f98d4134a8663967e8c20a1c91504d29d5b60257c6ad74fd"
 
 [metadata.files]
 "alembic 1.7.7" = [
@@ -395,6 +404,10 @@ content_hash = "sha256:713d0e05aa3818b750ab8c38b2b33e04746f0374b891e939166815dd8
 "flask 2.1.1" = [
     {file = "Flask-2.1.1-py3-none-any.whl", hash = "sha256:8a4cf32d904cf5621db9f0c9fbcd7efabf3003f22a04e4d0ce790c7137ec5264"},
     {file = "Flask-2.1.1.tar.gz", hash = "sha256:a8c9bd3e558ec99646d177a9739c41df1ded0629480b4c8d2975412f3c9519c8"},
+]
+"flask-cors 3.0.10" = [
+    {file = "Flask_Cors-3.0.10-py2.py3-none-any.whl", hash = "sha256:74efc975af1194fc7891ff5cd85b0f7478be4f7f59fe158102e91abb72bb4438"},
+    {file = "Flask-Cors-3.0.10.tar.gz", hash = "sha256:b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"},
 ]
 "flask-httpauth 4.6.0" = [
     {file = "Flask_HTTPAuth-4.6.0-py3-none-any.whl", hash = "sha256:29191747bd6a6e81980fd9c415ec1279612b06ee4a7cad8463856f2ed571ec77"},
