@@ -46,11 +46,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "blinker"
-version = "1.4"
-summary = "Fast, simple object-to-object and broadcast signaling"
-
-[[package]]
 name = "cffi"
 version = "1.15.0"
 summary = "Foreign Function Interface for Python calling C code."
@@ -84,7 +79,7 @@ dependencies = [
 
 [[package]]
 name = "faker"
-version = "13.3.5"
+version = "13.4.0"
 requires_python = ">=3.6"
 summary = "Faker is a Python package that generates fake data for you."
 dependencies = [
@@ -119,15 +114,6 @@ version = "4.6.0"
 summary = "HTTP authentication for Flask routes"
 dependencies = [
     "flask",
-]
-
-[[package]]
-name = "flask-mail"
-version = "0.9.1"
-summary = "Flask extension for sending email"
-dependencies = [
-    "Flask",
-    "blinker",
 ]
 
 [[package]]
@@ -312,9 +298,6 @@ content_hash = "sha256:2cfb0873be4c0598f98d4134a8663967e8c20a1c91504d29d5b60257c
     {file = "bleach-5.0.0-py3-none-any.whl", hash = "sha256:08a1fe86d253b5c88c92cc3d810fd8048a16d15762e1e5b74d502256e5926aa1"},
     {file = "bleach-5.0.0.tar.gz", hash = "sha256:c6d6cc054bdc9c83b48b8083e236e5f00f238428666d2ce2e083eaa5fd568565"},
 ]
-"blinker 1.4" = [
-    {file = "blinker-1.4.tar.gz", hash = "sha256:471aee25f3992bd325afa3772f1063dbdbbca947a041b8b89466dc00d606f8b6"},
-]
 "cffi 1.15.0" = [
     {file = "cffi-1.15.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:c2502a1a03b6312837279c8c1bd3ebedf6c12c4228ddbad40912d671ccc8a962"},
     {file = "cffi-1.15.0-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:23cfe892bd5dd8941608f93348c0737e369e51c100d03718f108bf1add7bd6d0"},
@@ -397,9 +380,9 @@ content_hash = "sha256:2cfb0873be4c0598f98d4134a8663967e8c20a1c91504d29d5b60257c
     {file = "cryptography-36.0.2-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:e167b6b710c7f7bc54e67ef593f8731e1f45aa35f8a8a7b72d6e42ec76afd4b3"},
     {file = "cryptography-36.0.2.tar.gz", hash = "sha256:70f8f4f7bb2ac9f340655cbac89d68c527af5bb4387522a8413e841e3e6628c9"},
 ]
-"faker 13.3.5" = [
-    {file = "Faker-13.3.5-py3-none-any.whl", hash = "sha256:9b7d5875b3081cd7782f290ae0e067c1c71cb2c47ac789155423ca88f73ae129"},
-    {file = "Faker-13.3.5.tar.gz", hash = "sha256:5cefb998adcc2030f569710aa5fdcc220df33de293a7394c1a8cbc71a4be007f"},
+"faker 13.4.0" = [
+    {file = "Faker-13.4.0-py3-none-any.whl", hash = "sha256:2d4139254c1cc69f2b5203f4a9aaab33a9e65f7994059856300ef6e21ac93f39"},
+    {file = "Faker-13.4.0.tar.gz", hash = "sha256:2a9716f2c409224121144f0d2fdc7105e978e2e266deb4d8216061d9668951fc"},
 ]
 "flask 2.1.1" = [
     {file = "Flask-2.1.1-py3-none-any.whl", hash = "sha256:8a4cf32d904cf5621db9f0c9fbcd7efabf3003f22a04e4d0ce790c7137ec5264"},
@@ -412,9 +395,6 @@ content_hash = "sha256:2cfb0873be4c0598f98d4134a8663967e8c20a1c91504d29d5b60257c
 "flask-httpauth 4.6.0" = [
     {file = "Flask_HTTPAuth-4.6.0-py3-none-any.whl", hash = "sha256:29191747bd6a6e81980fd9c415ec1279612b06ee4a7cad8463856f2ed571ec77"},
     {file = "Flask-HTTPAuth-4.6.0.tar.gz", hash = "sha256:2076cf86e84c6aa442ee03344bff751eae133d35a1a48931e6f99f147161b55b"},
-]
-"flask-mail 0.9.1" = [
-    {file = "Flask-Mail-0.9.1.tar.gz", hash = "sha256:22e5eb9a940bf407bcf30410ecc3708f3c56cc44b29c34e1726fe85006935f41"},
 ]
 "flask-marshmallow 0.14.0" = [
     {file = "flask_marshmallow-0.14.0-py2.py3-none-any.whl", hash = "sha256:2adcd782b5a4a6c5ae3c96701f320d8ca6997995a52b2661093c56cc3ed24754"},
