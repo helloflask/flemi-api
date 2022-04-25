@@ -9,7 +9,8 @@ from .api_v4 import (
 )
 from .extensions import (
     db,
-    migrate
+    migrate,
+    mail
 )
 from .commands import register_commands
 from .models import User, Post, Group, Message, Column
@@ -20,7 +21,7 @@ from .utils import get_all_remote_addr
 def create_app(config_name=None) -> Flask:
     if config_name is None:
         config_name = os.getenv("FLASK_CONFIG", "development")
-    app = APIFlask("flog-api")
+    app = APIFlask("flog")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
 
     @app.get("/")
@@ -33,7 +34,7 @@ def create_app(config_name=None) -> Flask:
         }
 
     register_config(app=app, config_name="development")
-    register_extensions(app=app, db=db)
+    register_extensions(app=app)
     register_blueprints(app=app)
     register_commands(app=app, db=db)
     register_context(app=app)
@@ -44,9 +45,10 @@ def register_config(app: Flask, config_name: str) -> None:
     app.config.from_object(config[config_name])
 
 
-def register_extensions(app: Flask, db) -> None:
+def register_extensions(app: Flask) -> None:
     db.init_app(app=app)
     migrate.init_app(app=app, db=db)
+    mail.init_app(app=app)
 
 
 def register_blueprints(app: Flask) -> None:

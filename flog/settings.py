@@ -23,12 +23,12 @@ class Base:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
     MAIL_USERNAME = os.getenv("FLOG_EMAIL", "flog_admin@example.com")
     MAIL_PASSWORD = os.getenv("FLOG_EMAIL_PASSWORD", "flog_email_password")
     MAIL_DEFAULT_SENDER = os.getenv(
-        "DEFAULT_EMAIL_SENDER", "flog <flog_admin@example.com"
+        "DEFAULT_EMAIL_SENDER", "flog <flog_admin@example.com>"
     )
 
     HOT_POST_COIN = 7

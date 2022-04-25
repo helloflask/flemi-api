@@ -12,6 +12,7 @@ dependencies = [
     "authlib>=1.0.1",
     "bleach>=5.0.0",
     "faker>=13.3.5",
+    "flask-mail>=0.9.1",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}

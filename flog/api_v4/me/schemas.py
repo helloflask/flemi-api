@@ -6,7 +6,7 @@ class BasicProfileEditSchema(Schema):
     username = String(
         required=True,
         validate=validate.Regexp(
-            "^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$", 0
+            "^[A-Za-z]([A-Za-z0-9_\-.]){2,15}$", 0
         )
     )
     email = Email(required=True)

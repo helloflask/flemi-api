@@ -24,3 +24,5 @@ class PrivateUserOutputSchema(Schema):
     last_seen = DateTime()
     is_admin = Boolean()
     remote_addr = String()
+    clicks = Integer()
+    clicks_today = Integer()

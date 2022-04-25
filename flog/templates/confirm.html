@@ -1,0 +1,16 @@
+<div>
+    Hello {{ username }},<br>
+    {% if mode == 1 %}
+        Welcome to Flog! We are glad to know that you joined us. To continue your
+        Flog journey, your email must be confirmed.
+    {% elif mode == 2 %}
+        It seems that you need a resend of confirmation email. All right - that's
+        it.
+    {% elif mode == 3 %}
+        Someone attempted to perform sensitive operations on your account. If it's
+        not your operation, please ignore this email and consider changing a
+        password in case your account is stolen.
+    {% endif %}
+    Your token: <strong>{{ token }}</strong>
+    Please copy this token to your browser to continue.
+</div>

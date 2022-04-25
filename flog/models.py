@@ -327,8 +327,8 @@ class User(db.Model):
     name = db.Column(db.String(64))
     location = db.Column(db.String(64))
     about_me = db.Column(db.Text)
-    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
-    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow())
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow())
 
     collections = db.relationship(
         "Post", secondary=Collect, backref=db.backref("collectors")
@@ -366,6 +366,8 @@ class User(db.Model):
     # online, idle, focus, offline
 
     remote_addr = db.Column(db.String(), default="")
+
+    password_update = db.Column(db.Float(), default=0)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -409,24 +411,37 @@ class User(db.Model):
         self.last_seen = now
         db.session.commit()
 
-    def gen_auth_api_token(self, expires=30*3600*24):
+    def gen_auth_api_token(self):
         header = {"alg": "HS256"}
         payload = {
             "uid": self.id,
-            "expires": time() + expires
+            "time": time()
+        }
+        token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
+        return token
+
+    def gen_email_verify_token(self):
+        header = {"alg": "HS256"}
+        payload = {
+            "uid": self.id,
+            "email": self.email,
+            "time": time()
         }
         token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
         return token
 
     @staticmethod
-    def verify_auth_token_api(token: str):
+    def verify_email_token(self, token: str):
         try:
             data = jwt.decode(token.encode("ascii"), current_app.config["SECRET_KEY"])
-            if data.get("expires") > time():
-                return User.query.get(data.get("uid"))    # None if user does not exist
-            raise Exception        # trigger "except" to return None
-        except:                    # either by decoding failure or by token expiration
-            return None
+            if data.get("time") + 900 > time():
+                self.confirmed = True
+                return True
+            else:
+                raise Exception
+        except:
+            self.confirmed = False
+            return False
 
     def delete(self):
         db.session.delete(self)
