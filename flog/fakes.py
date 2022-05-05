@@ -1,5 +1,7 @@
 from random import randint
 from faker import Faker
+from rich import print
+from rich.progress import track
 from .utils import lower_username
 from .models import (
     db,
@@ -15,9 +17,16 @@ from .models import (
 fake = Faker()
 
 
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#           WARNING:   DO NOT USE FAKE DATA IN PRODUCTION ENVIRONMENT!
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 def users(count: int = 10) -> None:
     """Generates fake users"""
-    for _ in range(count):
+
+    print(f"\ngenerating users: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         name = fake.name()
         username = lower_username(name)
         # Ensure the username is unique.
@@ -36,25 +45,8 @@ def users(count: int = 10) -> None:
 
 def posts(count: int = 10) -> None:
     """Generates fake posts"""
-    not_private = Post(
-        title=fake.word() + " " + fake.word(),
-        content=fake.text(randint(100, 300)),
-        timestamp=fake.date_time_this_year(),
-        author=User.query.get(randint(1, User.query.count())),
-        private=False,
-    )
-    private = Post(
-        title=fake.word() + " " + fake.word(),
-        content=fake.text(randint(100, 300)),
-        timestamp=fake.date_time_this_year(),
-        author=User.query.get(randint(1, User.query.count())),
-        private=False,
-    )
-    db.session.add_all([not_private, private])
-    if count < 2:
-        db.session.commit()
-        return
-    for _ in range(count - 2):
+    print(f"\ngenerating posts: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         post = Post(
             title=fake.word() + " " + fake.word(),
             content=fake.text(randint(100, 300)),
@@ -68,7 +60,8 @@ def posts(count: int = 10) -> None:
 
 def comments(count: int = 10) -> None:
     """Generates fake comments for posts."""
-    for _ in range(count):
+    print(f"\ngenerating comments: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         filt = Post.query.filter(~Post.private)
         comment = Comment(
             author=User.query.get(randint(1, User.query.count())),
@@ -81,7 +74,8 @@ def comments(count: int = 10) -> None:
 
 def notifications(count: int, receiver: User = None) -> None:
     """Generates fake notifications"""
-    for _ in range(count):
+    print(f"\ngenerating notifications: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         if receiver is None:
             admin = User.query.filter_by(is_admin=True).first()
             receiver = admin
@@ -95,7 +89,8 @@ def notifications(count: int, receiver: User = None) -> None:
 
 def groups(count: int) -> None:
     """Generates fake user groups"""
-    for _ in range(count):
+    print(f"\ngenerating groups: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         manager = User.query.get(randint(1, User.query.count()))
         group = Group(name=fake.sentence(), manager=manager)
         if manager:
@@ -105,7 +100,8 @@ def groups(count: int) -> None:
 
 
 def columns(count: int) -> None:
-    for _ in range(count):
+    print(f"\ngenerating columns: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         posts = list(
             set(Post.query.get(randint(1, Post.query.count())) for _ in range(5))
         )
@@ -120,7 +116,8 @@ def columns(count: int) -> None:
 
 
 def messages(count: int) -> None:
-    for _ in range(count):
+    print(f"\ngenerating messages: [magenta]{count}[/magenta]")
+    for _ in track(range(count), description="progress"):
         group = Group.query.get(randint(1, Group.query.count()))
         message = Message(group=group, body=fake.sentence())
         db.session.add(message)

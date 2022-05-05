@@ -22,13 +22,13 @@ def verify_token(token: str):
     try:
         data = jwt.decode(token.encode("ascii"), current_app.config["SECRET_KEY"])
         if data.get("time") + 3600 * 24 * 30 > time():
-            user: User = User.query.get(data.get("uid"))    # None if user does not exist
+            user: User = User.query.get(data.get("uid"))  # None if user does not exist
             if user.password_update:
                 if user.password_update > data.get("time"):
                     return None
         else:
-            raise Exception    # trigger "except" to return None
-    except:                    # either by decoding failure or by token expiration
+            raise Exception  # trigger "except" to return None
+    except:  # either by decoding failure or by token expiration
         return None
     g.current_user = user
     user.ping()
@@ -44,12 +44,12 @@ def help():
     return {
         "/help": "help API of blueprint",
         "/login": "sign in and get API auth token",
-        "/register": "create a new account"
+        "/register": "create a new account",
     }
 
 
 @auth_bp.post("/login")
-@auth_bp.input(LoginSchema, location="form")
+@auth_bp.input(LoginSchema)
 def login(data):
     """
     sign in and get API auth token
@@ -63,15 +63,13 @@ def login(data):
     else:
         user: User = user or email
     if user.verify_password(password):
-        return {
-            "auth_token": user.gen_auth_api_token()
-        }, 200
+        return {"auth_token": user.gen_auth_api_token()}, 200
     else:
         abort(403)
 
 
 @auth_bp.post("/register")
-@auth_bp.input(RegisterSchema, location="form")
+@auth_bp.input(RegisterSchema)
 def register(data):
     """
     create a new account
@@ -87,13 +85,9 @@ def register(data):
     uu = User.query.filter_by(username=username).first()
     ue = User.query.filter_by(email=email).first()
     if uu:
-        return {
-            "message": "username already exists"
-        }, 400
+        return {"message": "username already exists"}, 400
     if ue:
-        return {
-            "message": "email already exists"
-        }, 400
+        return {"message": "email already exists"}, 400
 
     # write data into db
     user = User(
@@ -102,13 +96,11 @@ def register(data):
         email=email,
         about_me=about_me,
         name=name,
-        password_update=time()
+        password_update=time(),
     )
     db.session.add(user)
     db.session.commit()
-    return {
-        "message": "ok"
-    }
+    return {"message": "ok"}
 
 
 @auth_bp.get("/confirm/send")
@@ -122,7 +114,7 @@ def send_confirmation():
         "confirm",
         username=me.username,
         token=token,
-        mode=2
+        mode=2,
     )
     return {"message": "ok"}
 

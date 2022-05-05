@@ -45,6 +45,7 @@ class Belong(db.Model):
     """
     A model describing the relationship of user and shop items.
     """
+
     id = db.Column(db.Integer, primary_key=True)
 
     owner_id = db.Column(
@@ -116,15 +117,18 @@ class Post(db.Model):
         """
         Give a certain number of coins to a post.
         """
-        if coin_num not in (1, 2,):  # Used when a user put an invalid number of coins.
+        if coin_num not in (
+            1,
+            2,
+        ):  # Used when a user put an invalid number of coins.
             return "Invalid coin!"
-        if self in current_user.coined_posts:    # A post cannot be recoined.
+        if self in current_user.coined_posts:  # A post cannot be recoined.
             return "Invalid coin!"
-        if self.author == current_user:          # Used for flogo, so that flogo CLI users
-            return "You can't coin yourself."    # cannot give coins to their own posts.
+        if self.author == current_user:  # Used for flogo, so that flogo CLI users
+            return "You can't coin yourself."  # cannot give coins to their own posts.
 
         amount = coin_num
-        if current_user.coins < amount:    # A user must have enough coin to give.
+        if current_user.coins < amount:  # A user must have enough coin to give.
             return "Not enough coins."
 
         current_user.coined_posts.append(self)
@@ -132,8 +136,8 @@ class Post(db.Model):
         current_user.experience += amount * 10
         self.coins += amount
 
-        if self.author:                               # The author will be given 1/4
-            self.author.coins += amount / 4           # of the number of coins given.
+        if self.author:  # The author will be given 1/4
+            self.author.coins += amount / 4  # of the number of coins given.
             self.author.experience += amount * 10
 
         db.session.commit()
@@ -209,6 +213,7 @@ class Notification(db.Model):
     """
     The model of Notification.
     """
+
     # Initial information
     id = db.Column(db.Integer, primary_key=True)
 
@@ -236,6 +241,7 @@ class Image(db.Model):
     """
     A Image file uploaded to server.
     """
+
     # Initial information
     id = db.Column(db.Integer, primary_key=True)
 
@@ -274,6 +280,7 @@ class Group(db.Model):
     """
     A Group model used for chat.
     """
+
     # Initial information
     id = db.Column(db.Integer, primary_key=True)
 
@@ -298,6 +305,7 @@ class Message(db.Model):
     """
     Message Model in the group.
     """
+
     id = db.Column(db.Integer, primary_key=True)
 
     body = db.Column(db.Text)
@@ -312,6 +320,7 @@ class User(db.Model):
     """
     User model.
     """
+
     id = db.Column(db.Integer, primary_key=True)
 
     email = db.Column(db.String(256))
@@ -413,20 +422,13 @@ class User(db.Model):
 
     def gen_auth_api_token(self):
         header = {"alg": "HS256"}
-        payload = {
-            "uid": self.id,
-            "time": time()
-        }
+        payload = {"uid": self.id, "time": time()}
         token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
         return token
 
     def gen_email_verify_token(self):
         header = {"alg": "HS256"}
-        payload = {
-            "uid": self.id,
-            "email": self.email,
-            "time": time()
-        }
+        payload = {"uid": self.id, "email": self.email, "time": time()}
         token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
         return token
 
@@ -566,6 +568,7 @@ class User(db.Model):
         """
         Get the Alpha Index describing how a user is in the site.
         """
+
         def _get_recp(user):
             return [
                 post
@@ -658,7 +661,7 @@ class User(db.Model):
         return sum([len(post.collectors) for post in self.posts])
 
 
-class AnonymousUser():
+class AnonymousUser:
     def can(self, perm):
         return False
 

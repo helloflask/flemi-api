@@ -1,10 +1,6 @@
 from apiflask import APIBlueprint
 from flask import g
-from .schemas import (
-    BasicProfileEditSchema,
-    AvatarEditSchema,
-    AboutEditSchema
-)
+from .schemas import BasicProfileEditSchema, AvatarEditSchema, AboutEditSchema
 from ..schemas import PrivateUserOutputSchema
 from ...extensions import auth, db
 from ...models import User
@@ -33,7 +29,7 @@ def help():
         "/": "profile of the current user",
         "/edit/basic/": "edit username, email and name",
         "/edit/avatar/": "change avatar",
-        "/help/": "help API of blueprint"
+        "/help/": "help API of blueprint",
     }
 
 
@@ -49,13 +45,9 @@ def edit_basic(data):
     email = data["email"]
     name = data["name"]
     if User.query.filter_by(username=username).first():
-        return {
-            "message": "username already exists"
-        }, 400
+        return {"message": "username already exists"}, 400
     if User.query.filter_by(email=email).first():
-        return {
-            "message": "email already exists"
-        }, 400
+        return {"message": "email already exists"}, 400
     me.username = username
     me.email = email
     me.name = name

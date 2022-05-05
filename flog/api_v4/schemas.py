@@ -1,12 +1,5 @@
 from apiflask import Schema
-from apiflask.fields import (
-    Integer,
-    Boolean,
-    String,
-    DateTime,
-    Email,
-    Float
-)
+from apiflask.fields import Integer, Boolean, String, DateTime, Email, Float
 
 
 class PrivateUserOutputSchema(Schema):

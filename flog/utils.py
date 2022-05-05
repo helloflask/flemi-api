@@ -71,10 +71,10 @@ def clean_html(content: str) -> str:
     )
 
 
-def get_all_remote_addr() -> None: # console
+def get_all_remote_addr() -> None:  # console
     users = User.query.all()
     for user in users:
         uid = str(user.id).rjust(5)
         username = user.username.ljust(32)
         addr = (user.remote_addr or " ").ljust(16)
-        print(uid+" "+username+addr)
+        print(uid + " " + username + addr)
