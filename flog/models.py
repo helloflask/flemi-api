@@ -6,6 +6,7 @@ import os
 import hashlib
 from authlib.jose import jwt
 from datetime import datetime, timedelta
+from authlib.jose.errors import JoseError
 from flask import current_app, url_for
 from time import time
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -420,11 +421,12 @@ class User(db.Model):
         self.last_seen = now
         db.session.commit()
 
-    def gen_auth_api_token(self):
+    def auth_token(self):
         header = {"alg": "HS256"}
         payload = {"uid": self.id, "time": time()}
-        token = jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
-        return token
+        return jwt.encode(
+            header, payload, current_app.config["SECRET_KEY"]
+        ).decode()
 
     def gen_email_verify_token(self):
         header = {"alg": "HS256"}
@@ -439,9 +441,8 @@ class User(db.Model):
             if data.get("time") + 900 > time():
                 self.confirmed = True
                 return True
-            else:
-                raise Exception
-        except:
+            raise JoseError("Token expired")
+        except JoseError:
             self.confirmed = False
             return False
 
@@ -583,7 +584,7 @@ class User(db.Model):
                 if (datetime.utcnow() - comment.timestamp < timedelta(days=21))
             ]
 
-        posts, comments = _get_recp(user=self), _get_recc(user=self)
+        _get_recp(user=self), _get_recc(user=self)
         v5 = (
             (True if self.name else False)
             + (True if self.location else False)

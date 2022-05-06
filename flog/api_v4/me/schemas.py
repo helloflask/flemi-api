@@ -1,5 +1,24 @@
 from marshmallow import Schema, validate
-from marshmallow.fields import String, Email, Url
+from marshmallow.fields import Integer, Float, Boolean, DateTime, String, Email, Url
+
+
+class PrivateUserOutputSchema(Schema):
+    id = Integer()
+    email = Email()
+    username = String()
+    name = String()
+    coins = Float()
+    experience = Integer()
+    location = String()
+    about_me = String()
+    confirmed = Boolean()
+    blocked = Boolean()
+    member_since = DateTime()
+    last_seen = DateTime()
+    is_admin = Boolean()
+    remote_addr = String()
+    clicks = Integer()
+    clicks_today = Integer()
 
 
 class BasicProfileEditSchema(Schema):

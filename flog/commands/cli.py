@@ -2,6 +2,7 @@ from random import randint
 from rich import print
 from ..extensions import db
 
+
 def confirm(prompt, otherwise):
     while True:
         print(prompt, end="")
@@ -18,17 +19,17 @@ def confirm(prompt, otherwise):
             )
             continue
 
+
 def check(prompt):
     while True:
         print(prompt, end="")
         answer = input(" [Y/n] ")
         if answer in "YyNn" and len(answer) == 1:
-            return (answer in "Yy")
-        print(
-            "[red]Fatal[/red]: please choose [green]Y[/green] or [green]n[/green]"
-        )
+            return answer in "Yy"
+        print("[red]Fatal[/red]: please choose [green]Y[/green] or [green]n[/green]")
 
-def int_input(prompt: str, default=None, auto_default: bool=False):
+
+def int_input(prompt: str, default=None, auto_default: bool = False):
     while True:
         print(prompt, end="")
         answer = input("")

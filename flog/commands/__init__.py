@@ -38,7 +38,9 @@ def register_commands(app: Flask, db):  # noqa: C901
             print("[green]Success![/green]\n")
         else:
             print(
-                f"\n[red]Fatal[/red]: user matching email ([green]{email}[/green]) or username ([green]{username}[/green]) excceeded (limit: [magenta]1[/magenta])\n"
+                f"\n[red]Fatal[/red]: user matching email ([green]{email}[/green]) "
+                f"or username ([green]{username}[/green]) excceeded "
+                "(limit: [magenta]1[/magenta])\n"
             )
 
     @app.cli.command()

@@ -10,7 +10,7 @@ class LoginSchema(Schema):
 
 class RegisterSchema(Schema):
     username = String(
-        required=True, validate=validate.Regexp("^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$", 0)
+        required=True, validate=validate.Regexp("^[A-Za-z]([A-Za-z0-9_\-.]){2,15}$", 0)
     )
     password = String(required=True)
     email = Email(required=True)
@@ -18,5 +18,5 @@ class RegisterSchema(Schema):
     name = String(required=True)
 
 
-class EmailConfirmationSchema(Schema):
-    token = String(required=True)
+# class EmailConfirmationSchema(Schema):
+#     token = String(required=True)

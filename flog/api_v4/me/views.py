@@ -1,81 +1,78 @@
 from apiflask import APIBlueprint
-from flask import g
-from .schemas import BasicProfileEditSchema, AvatarEditSchema, AboutEditSchema
-from ..schemas import PrivateUserOutputSchema
+from .schemas import (
+    BasicProfileEditSchema,
+    AvatarEditSchema,
+    AboutEditSchema,
+    PrivateUserOutputSchema
+)
 from ...extensions import auth, db
 from ...models import User
 
 
-me_bp = APIBlueprint("me", __name__, url_prefix="/v4/me")
+me_bp = APIBlueprint("me", __name__, url_prefix="/me")
 
 
-@me_bp.get("/")
-@auth.login_required
+@me_bp.get("")
+@me_bp.auth_required(auth)
 @me_bp.output(PrivateUserOutputSchema)
 def self_profile():
     """
     profile of the current user
     """
-    me: User = g.current_user
-    return me
+    return auth.current_user
 
 
 @me_bp.get("/help")
-def help():
+def help():  # pragma: no cover
     """
     help API of blueprint
     """
     return {
         "/": "profile of the current user",
-        "/edit/basic/": "edit username, email and name",
-        "/edit/avatar/": "change avatar",
-        "/help/": "help API of blueprint",
+        "/edit/basic": "edit username, email and name",
+        "/edit/avatar": "change avatar",
+        "/help": "help API of blueprint",
     }
 
 
-@me_bp.post("/edit/basic")
-@auth.login_required
-@me_bp.input(BasicProfileEditSchema)
+@me_bp.put("/edit/basic")
+@me_bp.auth_required(auth)
+@me_bp.input(BasicProfileEditSchema(partial=True))
 def edit_basic(data):
     """
     edit username, email and name
     """
-    me: User = g.current_user
-    username = data["username"]
-    email = data["email"]
-    name = data["name"]
-    if User.query.filter_by(username=username).first():
-        return {"message": "username already exists"}, 400
-    if User.query.filter_by(email=email).first():
-        return {"message": "email already exists"}, 400
-    me.username = username
-    me.email = email
-    me.name = name
+    me: User = auth.current_user
+    for key, value in data.items():
+        if key == "username" and User.query.filter_by(username=value).first():  # pragma: no cover
+            return {"message": "username already exists"}, 400
+        if key == "email" and User.query.filter_by(email=value).first():  # pragma: no cover
+            return {"message": "email already exists"}, 400
+        setattr(me, key, value)
+
     db.session.commit()
     return {"message": "ok"}, 200
 
 
-@me_bp.post("/edit/avatar")
-@auth.login_required
+@me_bp.put("/edit/avatar")
+@me_bp.auth_required(auth)
 @me_bp.input(AvatarEditSchema)
 def edit_avatar(data):
     """
     change avatar
     """
-    me: User = g.current_user
-    me.custom_avatar_url = data["avatar_url"]
+    auth.current_user.custom_avatar_url = data["avatar_url"]
     db.session.commit()
     return {"message": "ok"}, 200
 
 
-@me_bp.post("/edit/about")
-@auth.login_required
+@me_bp.put("/edit/about")
+@me_bp.auth_required(auth)
 @me_bp.input(AboutEditSchema)
 def edit_about_me(data):
     """
     edit self description
     """
-    me: User = g.current_user
-    me.about_me = data["about_me"]
+    auth.current_user.about_me = data["about_me"]
     db.session.commit()
     return {"message": "ok"}, 200

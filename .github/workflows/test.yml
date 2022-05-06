@@ -1,0 +1,32 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python: [
+            '3.8',
+            '3.9',
+            '3.10',
+        ]
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: pdm-project/setup-pdm@main
+        name: Setup PDM
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: x64
+          enable-pep582: true
+      - name: Install dependencies
+        run: pdm install --dev
+      - name: Run pytest
+        run: pdm run pytest
+      - name: Generate xml coverage
+        run: pdm run coverage xml
+      - name: Upload coverage to codecov
+        if: ${{ matrix.python == 3.9 && matrix.os == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v2

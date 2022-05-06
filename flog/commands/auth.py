@@ -34,7 +34,9 @@ def register_auth_group(app: Flask, db):
         if not re.match("^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$", username):
             spinner_username.fail(text="verify username failed")
             print(
-                f"[red]Fatal[/red]: match pattern fails: [cyan]^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$[/cyan] (invalid username [green]{username}[/green])\n"
+                "[red]Fatal[/red]: match pattern fails: "
+                "[cyan]^[A-Za-z]([A-Za-z0-9_-.]){5,11}$[/cyan] "
+                f"(invalid username [green]{username}[/green])\n"
             )
             exit(0)
         spinner_username.succeed(text="verify username success")
@@ -48,10 +50,7 @@ def register_auth_group(app: Flask, db):
             spinner_email.fail(text="verify email failed")
             print(f"[red]Fatal[/red]: email [green]{email}[/green] already exists.\n")
             exit(0)
-        if not re.match(
-            "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$",
-            email
-        ):
+        if not re.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", email):
             spinner_email.fail(text="verify email failed")
             print(
                 f"[red]Fatal[/red]: match pattern fails (invalid email [green]{email}[/green])\n"
@@ -66,7 +65,9 @@ def register_auth_group(app: Flask, db):
         spinner_name.start()
         if not 1 < len(name) <= 64:
             spinner_name.fail(text="verify name failed")
-            print(f"[red]Fatal[/red]: max length of content is 64 (currently {len(name)})\n")
+            print(
+                f"[red]Fatal[/red]: max length of content is 64 (currently {len(name)})\n"
+            )
             exit(0)
         spinner_name.succeed(text="verify name success")
 
@@ -86,17 +87,13 @@ def register_auth_group(app: Flask, db):
         spinner_pwd.start()
         if passwd != passwd_again:
             spinner_pwd.fail(text="verify password failed")
-            print(f"[red]Fatal[/red]: password not match\n")
+            print("[red]Fatal[/red]: password not match\n")
             exit(0)
 
         spinner_pwd.succeed(text="verify password success")
 
         u = User(
-            username=username,
-            email=email,
-            name=name,
-            about_me=about,
-            location=location
+            username=username, email=email, name=name, about_me=about, location=location
         )
 
         u.set_password(passwd)
@@ -109,10 +106,7 @@ def register_auth_group(app: Flask, db):
 
         print("\n[green]Nice![/green] the basic information is now ready.")
 
-        confirm(
-            prompt="want to make advanced configuration?",
-            otherwise=register_exit
-        )
+        confirm(prompt="want to make advanced configuration?", otherwise=register_exit)
 
         print("")
         if check(f"is [green]{username}[/green] an [yellow]administrator[/yellow]?"):
@@ -123,12 +117,12 @@ def register_auth_group(app: Flask, db):
 
         u.coins = int_input(
             f"set initial [yellow]coins[/yellow] for [green]{username}[/green] (default to 3): ",
-            default=3
+            default=3,
         )
 
         u.experience = int_input(
             f"set initial [yellow]EXP[/yellow] for [green]{username}[/green] (default to 0): ",
-            default=0
+            default=0,
         )
 
         register_exit()

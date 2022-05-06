@@ -20,4 +20,3 @@ def register_user_group(app: Flask, db):
         """
         user query to id (returns list)
         """
-

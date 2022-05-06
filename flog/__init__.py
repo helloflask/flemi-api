@@ -2,8 +2,9 @@ from apiflask import APIFlask
 from flask import Flask
 import os
 from werkzeug.middleware.proxy_fix import ProxyFix
-from .api_v4 import api_v4_bp, auth_bp as v4_auth_bp, me_bp as v4_me_bp
-from .extensions import db, migrate, mail
+from .api_v4.authentication.views import auth_bp
+from .api_v4.me.views import me_bp
+from .extensions import db, migrate, cors
 from .commands import register_commands
 from .models import User, Post, Group, Message, Column
 from .settings import config
@@ -21,7 +22,7 @@ def create_app(config_name=None) -> Flask:
         """
         help API of the app
         """
-        return {"/v4/": "version 4.x of flog web API"}
+        return {"/": "version 4.x of flog web API"}
 
     register_config(app=app, config_name="development")
     register_extensions(app=app)
@@ -38,13 +39,12 @@ def register_config(app: Flask, config_name: str) -> None:
 def register_extensions(app: Flask) -> None:
     db.init_app(app=app)
     migrate.init_app(app=app, db=db)
-    mail.init_app(app=app)
+    cors.init_app(app)
 
 
 def register_blueprints(app: Flask) -> None:
-    app.register_blueprint(api_v4_bp)
-    app.register_blueprint(v4_auth_bp)
-    app.register_blueprint(v4_me_bp)
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(me_bp)
 
 
 def register_context(app: Flask) -> None:
