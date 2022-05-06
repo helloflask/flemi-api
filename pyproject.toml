@@ -1,9 +1,10 @@
 [project]
-name = ""
+name = "flog-api-v4"
 version = ""
 description = ""
 authors = [
     {name = "rice0208", email = "riceforever0208@outlook.com"},
+    {name = "andyzhou", email = "andyforever0108@outlook.com"},
 ]
 dependencies = [
     "apiflask~=1.0.0",
@@ -17,7 +18,7 @@ dependencies = [
     "halo>=0.0.31",
     "python-dotenv>=0.20.0",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 license = {text = "MIT"}
 [project.optional-dependencies]
 
