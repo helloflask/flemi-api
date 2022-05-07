@@ -9,7 +9,7 @@ project of Flog (using React.js).
 
 ## How to install
 
-Flog API v4 uses (PDM)[https://github.com/pdm-project/pdm] to manage its dependencies,
+Flog API v4 uses [PDM](https://github.com/pdm-project/pdm) to manage its dependencies,
 so you should install PDM first:
 
 ```powershell
