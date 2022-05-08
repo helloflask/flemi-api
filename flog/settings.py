@@ -21,7 +21,7 @@ class Base:
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_recycle': 10
     }
-    SQLQLCHEMY_POOL_SIZE = 30
+    SQLALCHEMY_POOL_SIZE = 30
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
