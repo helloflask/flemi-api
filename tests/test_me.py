@@ -1,6 +1,7 @@
 from flog.models import User
 from .base import Base
 
+
 class MeTestCase(Base):
     def setUp(self) -> None:
         super().setUp()
