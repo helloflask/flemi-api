@@ -19,9 +19,10 @@ class Base:
     SECRET_KEY = os.getenv("SECRET_KEY", "hard-to-guess")
 
     SQLALCHEMY_ENGINE_OPTIONS = {
-        'pool_recycle': 10
+        'pool_recycle': 10,
+        'pool_size': 30
     }
-    SQLQLCHEMY_POOL_SIZE = 30
+    # SQLALCHEMY_POOL_SIZE = 30
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
@@ -70,6 +71,7 @@ class Base:
         "viewBox", "role", "focusable", "stroke-width",
         "id", "d", "lang", "alt"
     ]
+
     # fmt: on
 
     @classmethod

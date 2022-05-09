@@ -9,7 +9,7 @@ class AuthTestCase(Base):
         })
         data = resp.get_json()
         self.assertEqual(resp.status_code, 200)
-        self.assert_(data.get("auth_token").startswith("Bearer "))
+        self.assertTrue(data.get("auth_token").startswith("Bearer "))
 
     def test_register(self):
         user_data = {
