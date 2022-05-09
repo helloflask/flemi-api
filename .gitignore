@@ -43,7 +43,5 @@ venv.bak/
 # pdm stuff
 .pdm.toml
 
-pdm.lock
-
 # vscode stuff
 .vscode/
