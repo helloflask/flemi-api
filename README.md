@@ -40,4 +40,4 @@ like PythonAnywhere, Heroku, etc. Read its docs and go on.
 
 ## Credits
 
-The code is written by @rice0208 and @z-t-y.
+Flog project is created by [@z-t-y](https://github.com/z-t-y). Now maintained by [helloflask/floggers](https://github.com/orgs/helloflask/teams/floggers). See contributors for more information.
