@@ -1,5 +1,7 @@
 # Flog API v4
 
+> **Tips:** This repository is still under construction.
+
 This project is actually a side project of z-t-y/Flog, working as Flog's new web API.
 There's currently 3 API versions in Flog repository, and, because of this, this project
 is version 4.
