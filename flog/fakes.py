@@ -1,5 +1,6 @@
 from random import randint
 from faker import Faker
+from flask import current_app
 from rich import print
 from rich.progress import track
 from .utils import lower_username
@@ -22,10 +23,14 @@ fake = Faker()
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
+def progress_bar(name: str, count: int) -> None:
+    if not current_app.config:
+        print(f"\ngenerating {name}: [magenta]{count}[/magenta]")
+
+
 def users(count: int = 10) -> None:
     """Generates fake users"""
-
-    print(f"\ngenerating users: [magenta]{count}[/magenta]")
+    progress_bar("users", count)
     for _ in track(range(count), description="progress"):
         name = fake.name()
         username = lower_username(name)
@@ -43,16 +48,16 @@ def users(count: int = 10) -> None:
     db.session.commit()
 
 
-def posts(count: int = 10) -> None:
+def posts(count: int = 10, private: bool = None) -> None:
     """Generates fake posts"""
-    print(f"\ngenerating posts: [magenta]{count}[/magenta]")
+    progress_bar("posts", count)
     for _ in track(range(count), description="progress"):
         post = Post(
             title=fake.word() + " " + fake.word(),
             content=fake.text(randint(100, 300)),
             timestamp=fake.date_time_this_year(),
             author=User.query.get(randint(1, User.query.count())),
-            private=bool(randint(0, 1)),
+            private=bool(randint(0, 1)) if private is None else private,
         )
         db.session.add(post)
     db.session.commit()
@@ -60,7 +65,7 @@ def posts(count: int = 10) -> None:
 
 def comments(count: int = 10) -> None:
     """Generates fake comments for posts."""
-    print(f"\ngenerating comments: [magenta]{count}[/magenta]")
+    progress_bar("comments", count)
     for _ in track(range(count), description="progress"):
         filt = Post.query.filter(~Post.private)
         comment = Comment(
@@ -74,7 +79,7 @@ def comments(count: int = 10) -> None:
 
 def notifications(count: int, receiver: User = None) -> None:
     """Generates fake notifications"""
-    print(f"\ngenerating notifications: [magenta]{count}[/magenta]")
+    progress_bar("notifications", count)
     for _ in track(range(count), description="progress"):
         if receiver is None:
             admin = User.query.filter_by(is_admin=True).first()
@@ -89,7 +94,7 @@ def notifications(count: int, receiver: User = None) -> None:
 
 def groups(count: int) -> None:
     """Generates fake user groups"""
-    print(f"\ngenerating groups: [magenta]{count}[/magenta]")
+    progress_bar("groups", count)
     for _ in track(range(count), description="progress"):
         manager = User.query.get(randint(1, User.query.count()))
         group = Group(name=fake.sentence(), manager=manager)
@@ -100,7 +105,7 @@ def groups(count: int) -> None:
 
 
 def columns(count: int) -> None:
-    print(f"\ngenerating columns: [magenta]{count}[/magenta]")
+    progress_bar("columns", count)
     for _ in track(range(count), description="progress"):
         posts = list(
             set(Post.query.get(randint(1, Post.query.count())) for _ in range(5))
@@ -116,7 +121,7 @@ def columns(count: int) -> None:
 
 
 def messages(count: int) -> None:
-    print(f"\ngenerating messages: [magenta]{count}[/magenta]")
+    progress_bar("messages", count)
     for _ in track(range(count), description="progress"):
         group = Group.query.get(randint(1, Group.query.count()))
         message = Message(group=group, body=fake.sentence())

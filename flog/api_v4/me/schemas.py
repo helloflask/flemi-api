@@ -1,24 +1,29 @@
 from marshmallow import Schema, validate
-from marshmallow.fields import Integer, Float, Boolean, DateTime, String, Email, Url
+from marshmallow.fields import Function, String, Email, Url
 
 
 class PrivateUserOutputSchema(Schema):
-    id = Integer()
-    email = Email()
-    username = String()
-    name = String()
-    coins = Float()
-    experience = Integer()
-    location = String()
-    about_me = String()
-    confirmed = Boolean()
-    blocked = Boolean()
-    member_since = DateTime()
-    last_seen = DateTime()
-    is_admin = Boolean()
-    remote_addr = String()
-    clicks = Integer()
-    clicks_today = Integer()
+    avatar_url = Function(lambda obj: obj.avatar_url())
+
+    class Meta:
+        fields = (
+            "id",
+            "email",
+            "username",
+            "name",
+            "coins",
+            "experience",
+            "location",
+            "about_me",
+            "confirmed",
+            "blocked",
+            "member_since",
+            "last_seen",
+            "is_admin",
+            "clicks",
+            "clicks_today",
+            "avatar_url",
+        )
 
 
 class BasicProfileEditSchema(Schema):
@@ -30,7 +35,7 @@ class BasicProfileEditSchema(Schema):
 
 
 class AvatarEditSchema(Schema):
-    avatar_url = Url()
+    avatar_url = Url(required=True)
 
 
 class AboutEditSchema(Schema):

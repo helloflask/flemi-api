@@ -22,8 +22,9 @@ def verify_token(token: str):
         if data.get("time") + 3600 * 24 * 30 > time():
             user = User.query.get(data.get("uid"))  # None if user does not exist
             if (
-                user and user.password_update and
-                user.password_update > data.get("time")
+                user
+                and user.password_update
+                and user.password_update > data.get("time")
             ):
                 return None
         else:

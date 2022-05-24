@@ -424,9 +424,7 @@ class User(db.Model):
     def auth_token(self):
         header = {"alg": "HS256"}
         payload = {"uid": self.id, "time": time()}
-        return jwt.encode(
-            header, payload, current_app.config["SECRET_KEY"]
-        ).decode()
+        return jwt.encode(header, payload, current_app.config["SECRET_KEY"]).decode()
 
     def gen_email_verify_token(self):
         header = {"alg": "HS256"}
@@ -570,68 +568,60 @@ class User(db.Model):
         Get the Alpha Index describing how a user is in the site.
         """
 
-        def _get_recp(user):
+        def _get_recent_posts(user):
             return [
                 post
                 for post in user.posts
                 if (datetime.utcnow() - post.timestamp < timedelta(days=21))
             ]
 
-        def _get_recc(user):
+        def _get_recent_comments(user):
             return [
                 comment
                 for comment in user.comments
                 if (datetime.utcnow() - comment.timestamp < timedelta(days=21))
             ]
 
-        _get_recp(user=self), _get_recc(user=self)
         v5 = (
             (True if self.name else False)
             + (True if self.location else False)
             + (len(self.about_me or "hello world") >= 20)
         ) / 3
 
-        def _get_recp_count(user):
-            return sum([len(p.content) for p in _get_recp(user)])
+        def _get_total_post_content(user):
+            return sum(len(p.content) for p in _get_recent_posts(user))
 
-        def _get_recc_count(user):
-            return sum([len(c.body) for c in _get_recc(user)])
+        def _get_total_comment(user):
+            return sum(len(c.body) for c in _get_recent_comments(user))
 
-        def _get_recp_coins(user):
-            return sum([p.coins for p in _get_recp(user)])
+        def _get_total_coins_in_posts(user):
+            return sum(p.coins for p in _get_recent_posts(user))
 
-        def _get_recn(user):
+        def _get_recent_coined_posts(user):
             return [
                 post
                 for post in user.coined_posts
                 if (datetime.utcnow() - post.timestamp < timedelta(40))
             ]
 
-        def _get_recn_cc(user):
-            return sum([p.coins for p in _get_recn(user)])
+        def _get_total_coins_given(user):
+            return sum(p.coins for p in _get_recent_coined_posts(user))
 
         pc, cc, tc, tc_ = (
-            _get_recp_count(self),
-            _get_recc_count(self),
-            _get_recp_coins(self),
-            _get_recn_cc(self),
+            _get_total_post_content(self),
+            _get_total_comment(self),
+            _get_total_coins_in_posts(self),
+            _get_total_coins_given(self),
         )
-        try:
-            v1 = pc / max([_get_recp_count(user) for user in User.query.all()])
-        except ZeroDivisionError:
-            v1 = 0
-        try:
-            v2 = cc / max([_get_recc_count(user) for user in User.query.all()])
-        except ZeroDivisionError:
-            v2 = 0
-        try:
-            v3 = tc / max([_get_recp_coins(user) for user in User.query.all()])
-        except ZeroDivisionError:
-            v3 = 0
-        try:
-            v4 = tc_ / max([_get_recn_cc(user) for user in User.query.all()])
-        except ZeroDivisionError:
-            v4 = 0
+
+        def _get_preportion(self_count, func):
+            max_count = max(func(user) for user in User.query.all())
+            return 0 if max_count == 0 else self_count / max_count
+
+        v1 = _get_preportion(pc, _get_total_post_content)
+        v2 = _get_preportion(cc, _get_total_comment)
+        v3 = _get_preportion(tc, _get_total_coins_in_posts)
+        v4 = _get_preportion(tc_, _get_total_coins_given)
 
         pi = 3.141592653589793
         s2 = 1.4142135623730951
@@ -653,26 +643,10 @@ class User(db.Model):
             self.last_update = now
 
     def post_count(self):
-        return len([p for p in self.posts])
+        return len(self.posts)
 
     def post_coins(self):
-        return sum([post.coins for post in self.posts])
+        return sum(post.coins for post in self.posts)
 
     def post_collects(self):
-        return sum([len(post.collectors) for post in self.posts])
-
-
-class AnonymousUser:
-    def can(self, perm):
-        return False
-
-    @property
-    def id(self):
-        return -1
-
-    @property
-    def is_admin(self):
-        return False
-
-    def is_administrator(self):
-        return False
+        return sum(len(post.collectors) for post in self.posts)

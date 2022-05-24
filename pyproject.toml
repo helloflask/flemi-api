@@ -28,6 +28,7 @@ dev = [
     "pytest>=7.1.2",
     "pytest-cov>=3.0.0",
     "pytest-xdist>=2.5.0",
+    "mypy>=0.950",
 ]
 
 [build-system]
@@ -36,7 +37,7 @@ build-backend = "pdm.pep517.api"
 
 [tool.pytest.ini_options]
 addopts = " -p no:warnings --cov"
-testpaths = ["tests"]
+testpaths = ["test"]
 
 [tool.coverage.run]
 branch = true

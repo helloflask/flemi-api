@@ -18,10 +18,7 @@ class Base:
 
     SECRET_KEY = os.getenv("SECRET_KEY", "hard-to-guess")
 
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        'pool_recycle': 10,
-        'pool_size': 30
-    }
+    SQLALCHEMY_ENGINE_OPTIONS = {"pool_recycle": 10, "pool_size": 30}
     # SQLALCHEMY_POOL_SIZE = 30
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

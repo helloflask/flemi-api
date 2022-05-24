@@ -3,7 +3,7 @@ from .schemas import (
     BasicProfileEditSchema,
     AvatarEditSchema,
     AboutEditSchema,
-    PrivateUserOutputSchema
+    PrivateUserOutputSchema,
 )
 from ...extensions import auth, db
 from ...models import User
@@ -44,9 +44,13 @@ def edit_basic(data):
     """
     me: User = auth.current_user
     for key, value in data.items():
-        if key == "username" and User.query.filter_by(username=value).first():  # pragma: no cover
+        if (
+            key == "username" and User.query.filter_by(username=value).first()
+        ):  # pragma: no cover
             return {"message": "username already exists"}, 400
-        if key == "email" and User.query.filter_by(email=value).first():  # pragma: no cover
+        if (
+            key == "email" and User.query.filter_by(email=value).first()
+        ):  # pragma: no cover
             return {"message": "email already exists"}, 400
         setattr(me, key, value)
 

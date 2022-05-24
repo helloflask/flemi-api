@@ -45,3 +45,6 @@ venv.bak/
 
 # vscode stuff
 .vscode/
+
+# pyright stuff
+pyrightconfig.json

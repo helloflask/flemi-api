@@ -1,10 +1,11 @@
+import os
+import importlib as il
+
 from apiflask import APIFlask
 from flask import Flask
-import os
+from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
-from .api_v4.authentication.views import auth_bp
-from .api_v4.me.views import me_bp
-from .extensions import db, migrate, cors
+from .extensions import db, migrate, ma
 from .commands import register_commands
 from .models import User, Post, Group, Message, Column
 from .settings import config
@@ -24,11 +25,11 @@ def create_app(config_name=None) -> Flask:
         """
         return {"/": "version 4.x of flog web API"}
 
-    register_config(app=app, config_name="development")
-    register_extensions(app=app)
-    register_blueprints(app=app)
-    register_commands(app=app, db=db)
-    register_context(app=app)
+    register_config(app, config_name)
+    register_blueprints(app)
+    register_extensions(app)
+    register_commands(app, db)
+    register_context(app)
     return app
 
 
@@ -39,12 +40,15 @@ def register_config(app: Flask, config_name: str) -> None:
 def register_extensions(app: Flask) -> None:
     db.init_app(app=app)
     migrate.init_app(app=app, db=db)
-    cors.init_app(app)
+    ma.init_app(app)
 
 
 def register_blueprints(app: Flask) -> None:
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(me_bp)
+    for mod_name in ("auth", "me", "post", "user"):
+        mod = il.import_module(f".api_v4.{mod_name}.views", "flog")
+        blueprint = getattr(mod, f"{mod_name}_bp")
+        CORS(blueprint)
+        app.register_blueprint(blueprint)
 
 
 def register_context(app: Flask) -> None:
