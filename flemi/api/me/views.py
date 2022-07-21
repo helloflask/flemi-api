@@ -6,7 +6,7 @@ from ...models import User
 from .schemas import AboutEditSchema
 from .schemas import AvatarEditSchema
 from .schemas import BasicProfileEditSchema
-from .schemas import PrivateUserOutputSchema
+from .schemas import PrivateUserOutSchema
 
 
 me_bp = APIBlueprint("me", __name__, url_prefix="/me")
@@ -14,7 +14,7 @@ me_bp = APIBlueprint("me", __name__, url_prefix="/me")
 
 @me_bp.get("")
 @me_bp.auth_required(auth)
-@me_bp.output(PrivateUserOutputSchema)
+@me_bp.output(PrivateUserOutSchema)
 def self_profile():
     """
     profile of the current user

@@ -51,7 +51,7 @@ def register_extensions(app: Flask) -> None:
 
 
 def register_blueprints(app: Flask) -> None:
-    for mod_name in ("auth", "me", "post", "user"):
+    for mod_name in ("auth", "me", "post", "user", "group"):
         mod = il.import_module(f".api.{mod_name}.views", "flemi")
         blueprint = getattr(mod, f"{mod_name}_bp")
         CORS(blueprint)

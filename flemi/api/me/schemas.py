@@ -6,7 +6,7 @@ from marshmallow.fields import String
 from marshmallow.fields import Url
 
 
-class PrivateUserOutputSchema(Schema):
+class PrivateUserOutSchema(Schema):
     avatar_url = Function(lambda obj: obj.avatar_url())
 
     class Meta:
