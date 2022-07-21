@@ -1,7 +1,7 @@
 Hello {{ username }},
 {% if mode == 1 %}
-Welcome to Flog! We are glad to know that you joined us. To continue your
-Flog journey, your email must be confirmed.
+Welcome to Flemi! We are glad to know that you joined us. To continue your
+Flemi journey, your email must be confirmed.
 {% elif mode == 2 %}
 It seems that you need a resend of confirmation email. All right - that's
 it.

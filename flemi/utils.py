@@ -74,8 +74,8 @@ def get_image_path_and_url(image_obj, current_user) -> dict:
 def clean_html(content: str) -> str:
     return clean(
         content,
-        tags=current_app.config["FLOG_ALLOWED_TAGS"],
-        attributes=current_app.config["FLOG_ALLOWED_HTML_ATTRIBUTES"],
+        tags=current_app.config["FLEMI_ALLOWED_TAGS"],
+        attributes=current_app.config["FLEMI_ALLOWED_HTML_ATTRIBUTES"],
         strip_comments=True,
     )
 

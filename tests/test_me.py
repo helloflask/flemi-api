@@ -1,4 +1,4 @@
-from flog.models import User
+from flemi.models import User
 from .base import Base
 
 

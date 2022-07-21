@@ -1,8 +1,8 @@
 import typing as t
 from unittest import TestCase
-from flog import create_app
-from flog.extensions import db
-from flog.models import User
+from flemi import create_app
+from flemi.extensions import db
+from flemi.models import User
 
 
 class Base(TestCase):

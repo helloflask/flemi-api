@@ -130,7 +130,7 @@ class Post(db.Model):
             return "Invalid coin!"
         if self in current_user.coined_posts:  # A post cannot be recoined.
             return "Invalid coin!"
-        if self.author == current_user:  # Used for flogo, so that flogo CLI users
+        if self.author == current_user:  # Used for flemio, so that flemio CLI users
             return "You can't coin yourself."  # cannot give coins to their own posts.
 
         amount = coin_num

@@ -3,7 +3,7 @@ from apiflask.fields import Boolean
 from apiflask.fields import DateTime
 from apiflask.fields import Integer
 from apiflask.fields import String
-from flog.extensions import ma
+from flemi.extensions import ma
 
 
 class PublicUserOutSchema(Schema):

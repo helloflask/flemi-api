@@ -1,6 +1,6 @@
 from .base import Base
-from flog import fakes
-from flog.models import Post, Column
+from flemi import fakes
+from flemi.models import Post, Column
 
 
 class PostTestCase(Base):

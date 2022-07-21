@@ -22,7 +22,7 @@ from .utils import get_all_remote_addr
 def create_app(config_name=None) -> Flask:
     if config_name is None:
         config_name = os.getenv("FLASK_CONFIG", "development")
-    app = APIFlask("flog")
+    app = APIFlask("flemi")
     app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
 
     @app.get("/")
@@ -30,7 +30,7 @@ def create_app(config_name=None) -> Flask:
         """
         help API of the app
         """
-        return {"/": "version 4.x of flog web API"}
+        return {"/": "version 4.x of flemi web API"}
 
     register_config(app, config_name)
     register_blueprints(app)
@@ -52,7 +52,7 @@ def register_extensions(app: Flask) -> None:
 
 def register_blueprints(app: Flask) -> None:
     for mod_name in ("auth", "me", "post", "user"):
-        mod = il.import_module(f".api_v4.{mod_name}.views", "flog")
+        mod = il.import_module(f".api.{mod_name}.views", "flemi")
         blueprint = getattr(mod, f"{mod_name}_bp")
         CORS(blueprint)
         app.register_blueprint(blueprint)

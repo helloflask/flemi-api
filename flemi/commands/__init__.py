@@ -19,9 +19,9 @@ def register_commands(app: Flask, db):  # noqa: C901
         """Create administrator account"""
         from ..models import User
 
-        username = app.config["FLOG_ADMIN"]
-        email = app.config["FLOG_ADMIN_EMAIL"]
-        password = app.config["FLOG_ADMIN_PASSWORD"]
+        username = app.config["FLEMI_ADMIN"]
+        email = app.config["FLEMI_ADMIN_EMAIL"]
+        password = app.config["FLEMI_ADMIN_PASSWORD"]
 
         print("\ncreating administrator account ...")
         print("[yellow]username[/yellow]: [green]%s[/green]" % username)

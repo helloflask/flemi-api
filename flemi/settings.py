@@ -27,18 +27,18 @@ class Base:
     MAIL_SERVER = os.getenv("MAIL_SERVER", "smtp.gmail.com")
     MAIL_PORT = 25
     MAIL_USE_TLS = False
-    MAIL_USERNAME = os.getenv("FLOG_EMAIL", "flog_admin@example.com")
-    MAIL_PASSWORD = os.getenv("FLOG_EMAIL_PASSWORD", "flog_email_password")
+    MAIL_USERNAME = os.getenv("FLEMI_EMAIL", "flemi_admin@example.com")
+    MAIL_PASSWORD = os.getenv("FLEMI_EMAIL_PASSWORD", "flemi_email_password")
     MAIL_DEFAULT_SENDER = os.getenv(
-        "DEFAULT_EMAIL_SENDER", "flog <flog_admin@example.com>"
+        "DEFAULT_EMAIL_SENDER", "flemi <flemi_admin@example.com>"
     )
 
     HOT_POST_COIN = 7
     HOT_COLUMN_COIN = 40
 
-    FLOG_ADMIN = os.getenv("FLOG_ADMIN", "flog_admin")
-    FLOG_ADMIN_EMAIL = os.getenv("FLOG_ADMIN_EMAIL", MAIL_USERNAME)
-    FLOG_ADMIN_PASSWORD = os.getenv("FLOG_ADMIN_PASSWORD", "hydrogen")
+    FLEMI_ADMIN = os.getenv("FLEMI_ADMIN", "flemi_admin")
+    FLEMI_ADMIN_EMAIL = os.getenv("FLEMI_ADMIN_EMAIL", MAIL_USERNAME)
+    FLEMI_ADMIN_PASSWORD = os.getenv("FLEMI_ADMIN_PASSWORD", "hydrogen")
 
     LOCALES = {"en_US": "English(US)", "zh_Hans_CN": "简体中文"}
 
@@ -55,7 +55,7 @@ class Base:
 
     # Allowed tags for posts
     # fmt: off
-    FLOG_ALLOWED_TAGS = [
+    FLEMI_ALLOWED_TAGS = [
         "p", "hr", "h1", "h2", "h3", "h4", "a",
         "img", "strong", "em", "s", "i", "b",
         "div", "span", "br", "ol", "ul", "li",
@@ -64,7 +64,7 @@ class Base:
         "quote", "blockquote", "small"
     ]
 
-    FLOG_ALLOWED_HTML_ATTRIBUTES = [
+    FLEMI_ALLOWED_HTML_ATTRIBUTES = [
         "href", "src", "style", "class",
         "xmlns:xlink", "width", "height", "tabindex",
         "viewBox", "role", "focusable", "stroke-width",
@@ -94,13 +94,13 @@ class Production(Base):
         credentials = None
         secure = None
         if getattr(cls, "ADMIN_EMAIL", None) is not None:
-            credentials = (cls.FLOG_ADMIN_EMAIL, cls.MAIL_PASSWORD)
+            credentials = (cls.FLEMI_ADMIN_EMAIL, cls.MAIL_PASSWORD)
             if getattr(cls, "MAIL_USE_TLS", None):
                 secure = ()
         mail_handler = SMTPHandler(
             mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
             fromaddr=cls.MAIL_DEFAULT_SENDER,
-            toaddrs=[cls.FLOG_ADMIN_EMAIL],
+            toaddrs=[cls.FLEMI_ADMIN_EMAIL],
             subject="Application Error",
             credentials=credentials,
             secure=secure,
