@@ -1,7 +1,9 @@
 import os
+
 import click
 from flask import Flask
 from rich import print
+
 from .auth import register_auth_group
 from .cli import confirm
 
@@ -109,9 +111,7 @@ def register_commands(app: Flask, db):  # noqa: C901
             print("upgrading from [yellow]flask-migrate[/yellow]")
             upgrade()
             print("[green]Success![/green]")
-        except:
-            # I forgot to run `flask db migrate` at the beginning of the project,
-            # so I have to init the database like this.
+        except Exception:
             print("upgrade fails, initializing ...")
             db.create_all()
             print("stamping ...")

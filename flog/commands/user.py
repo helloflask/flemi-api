@@ -1,6 +1,5 @@
-from flask import Flask
-from rich import print
 import click
+from flask import Flask
 
 
 def register_user_group(app: Flask, db):

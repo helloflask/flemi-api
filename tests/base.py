@@ -13,11 +13,7 @@ class Base(TestCase):
         self.context.push()
         db.drop_all()
         db.create_all()
-        self.test_user = User(
-            name="test",
-            username="test",
-            email="test@example.com"
-        )
+        self.test_user = User(name="test", username="test", email="test@example.com")
         self.test_user.set_password("password")
         db.session.add(self.test_user)
         db.session.commit()
@@ -28,14 +24,15 @@ class Base(TestCase):
         self.context.pop()
 
     def set_headers(
-        self,
-        username: t.Optional[str] = "test",
-        password: t.Optional[str] = "password"
+        self, username: t.Optional[str] = "test", password: t.Optional[str] = "password"
     ):
-        resp = self.client.post("/auth/login", json={
-            "username": username,
-            "password": password,
-        })
+        resp = self.client.post(
+            "/auth/login",
+            json={
+                "username": username,
+                "password": password,
+            },
+        )
         token = resp.get_json()["auth_token"]
         self.headers = {
             "Authorization": token,

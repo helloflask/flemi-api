@@ -1,6 +1,6 @@
 from random import randint
+
 from rich import print
-from ..extensions import db
 
 
 def confirm(prompt, otherwise):
@@ -35,7 +35,7 @@ def int_input(prompt: str, default=None, auto_default: bool = False):
         answer = input("")
         try:
             return int(answer)
-        except:
+        except Exception:
             if (default is not None) and (auto_default or answer == ""):
                 return default
             print(f"[red]Fatal[/red]: integer is required (e.g. {randint(3, 99)})")

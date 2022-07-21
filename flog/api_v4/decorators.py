@@ -1,6 +1,12 @@
-from apiflask import abort
 from functools import wraps
-from ..models import User, Post, Comment, Column, Group
+
+from apiflask import abort
+
+from ..models import Column
+from ..models import Comment
+from ..models import Group
+from ..models import Post
+from ..models import User
 from .auth.views import auth
 
 

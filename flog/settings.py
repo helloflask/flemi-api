@@ -3,7 +3,9 @@ MIT License
 Copyright (c) 2020 Andy Zhou
 """
 import os
-from os.path import join, abspath, dirname
+from os.path import abspath
+from os.path import dirname
+from os.path import join
 
 
 def generate_sqlite_filename(filename: str):

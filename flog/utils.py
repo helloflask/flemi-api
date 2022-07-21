@@ -1,9 +1,18 @@
-from os.path import join, exists
-from urllib.parse import urlparse, urljoin
+from os.path import exists
+from os.path import join
+from urllib.parse import urljoin
+from urllib.parse import urlparse
+
 from bleach import clean
-from flask import current_app, request, redirect, url_for
+from flask import current_app
+from flask import redirect
+from flask import request
+from flask import url_for
 from werkzeug.utils import secure_filename
-from .models import db, Image, User
+
+from .models import db
+from .models import Image
+from .models import User
 
 
 def lower_username(username: str) -> str:

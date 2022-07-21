@@ -1,13 +1,20 @@
-import os
 import importlib as il
+import os
 
 from apiflask import APIFlask
 from flask import Flask
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
-from .extensions import db, migrate, ma
+
 from .commands import register_commands
-from .models import User, Post, Group, Message, Column
+from .extensions import db
+from .extensions import ma
+from .extensions import migrate
+from .models import Column
+from .models import Group
+from .models import Message
+from .models import Post
+from .models import User
 from .settings import config
 from .utils import get_all_remote_addr
 

@@ -9,7 +9,8 @@ class MeTestCase(Base):
 
     def test_get_profile(self):
         resp = self.client.get(
-            "/me", headers=self.headers,
+            "/me",
+            headers=self.headers,
         )
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.get_json()["username"], "test")
@@ -21,10 +22,7 @@ class MeTestCase(Base):
             headers=self.headers,
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(
-            User.query.filter_by(username="test").first().name,
-            "new name"
-        )
+        self.assertEqual(User.query.filter_by(username="test").first().name, "new name")
 
     def test_edit_avatar(self):
         resp = self.client.put(

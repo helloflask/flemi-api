@@ -2,14 +2,19 @@
 MIT License
 Copyright (c) 2020 Andy Zhou
 """
-import os
 import hashlib
-from authlib.jose import jwt
-from datetime import datetime, timedelta
-from authlib.jose.errors import JoseError
-from flask import current_app, url_for
+import os
+from datetime import datetime
+from datetime import timedelta
 from time import time
-from werkzeug.security import generate_password_hash, check_password_hash
+
+from authlib.jose import jwt
+from authlib.jose.errors import JoseError
+from flask import current_app
+from flask import url_for
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
+
 from .extensions import db
 from .shop_items import items
 
@@ -94,7 +99,7 @@ class Post(db.Model):
     )
 
     def __init__(self, **kwargs):
-        super(Post, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def __repr__(self) -> str:
         return f"<Post {self.title}>"
@@ -164,7 +169,7 @@ class Column(db.Model):
         """
         The total coins of the column.
         """
-        return sum([post.coins for post in self.posts])
+        return sum(post.coins for post in self.posts)
 
     @property
     def topped(self):
@@ -380,7 +385,7 @@ class User(db.Model):
     password_update = db.Column(db.Float(), default=0)
 
     def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = self.gravatar_hash()
 
@@ -561,7 +566,7 @@ class User(db.Model):
         """
         The length of content.
         """
-        return sum([len(post.content) for post in self.posts])
+        return sum(len(post.content) for post in self.posts)
 
     def get_alpha(self):
         """

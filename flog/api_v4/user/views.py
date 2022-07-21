@@ -1,9 +1,9 @@
-from flask.views import MethodView
 from apiflask import APIBlueprint
+from flask.views import MethodView
 
-from .schemas import PublicUserOutSchema
-from ..decorators import can_edit
 from ...models import User
+from ..decorators import can_edit
+from .schemas import PublicUserOutSchema
 
 user_bp = APIBlueprint("user", __name__)
 

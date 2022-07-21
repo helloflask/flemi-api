@@ -1,12 +1,12 @@
 from apiflask import APIBlueprint
-from .schemas import (
-    BasicProfileEditSchema,
-    AvatarEditSchema,
-    AboutEditSchema,
-    PrivateUserOutputSchema,
-)
-from ...extensions import auth, db
+
+from ...extensions import auth
+from ...extensions import db
 from ...models import User
+from .schemas import AboutEditSchema
+from .schemas import AvatarEditSchema
+from .schemas import BasicProfileEditSchema
+from .schemas import PrivateUserOutputSchema
 
 
 me_bp = APIBlueprint("me", __name__, url_prefix="/me")

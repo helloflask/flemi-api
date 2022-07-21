@@ -1,10 +1,8 @@
 from apiflask import Schema
-from apiflask.fields import (
-    Integer,
-    Boolean,
-    String,
-    DateTime,
-)
+from apiflask.fields import Boolean
+from apiflask.fields import DateTime
+from apiflask.fields import Integer
+from apiflask.fields import String
 from flog.extensions import ma
 
 

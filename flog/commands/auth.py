@@ -1,10 +1,14 @@
-from flask import Flask
+import re
 from getpass import getpass
+
+from flask import Flask
 from halo import Halo
 from rich import print
-from .cli import confirm, check, int_input
+
 from ..models import User
-import re
+from .cli import check
+from .cli import confirm
+from .cli import int_input
 
 
 def register_auth_group(app: Flask, db):
@@ -31,7 +35,7 @@ def register_auth_group(app: Flask, db):
                 f"[red]Fatal[/red]: username [green]{username}[/green] already exists.\n"
             )
             exit(0)
-        if not re.match("^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$", username):
+        if not re.match(r"^[A-Za-z]([A-Za-z0-9_\-.]){5,11}$", username):
             spinner_username.fail(text="verify username failed")
             print(
                 "[red]Fatal[/red]: match pattern fails: "
@@ -50,7 +54,7 @@ def register_auth_group(app: Flask, db):
             spinner_email.fail(text="verify email failed")
             print(f"[red]Fatal[/red]: email [green]{email}[/green] already exists.\n")
             exit(0)
-        if not re.match("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", email):
+        if not re.match(r"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", email):
             spinner_email.fail(text="verify email failed")
             print(
                 f"[red]Fatal[/red]: match pattern fails (invalid email [green]{email}[/green])\n"
@@ -71,10 +75,10 @@ def register_auth_group(app: Flask, db):
             exit(0)
         spinner_name.succeed(text="verify name success")
 
-        print("[yellow]about[/yellow] [green]\[Optional][/green]: ", end="")
+        print(r"[yellow]about[/yellow] [green]\[Optional][/green]: ", end="")
         about = input("")
 
-        print("[yellow]location[/yellow] [green]\[Optional][/green]: ", end="")
+        print(r"[yellow]location[/yellow] [green]\[Optional][/green]: ", end="")
         location = input("")
 
         print("[yellow]password[/yellow]: ", end="")

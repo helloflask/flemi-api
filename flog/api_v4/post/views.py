@@ -1,22 +1,25 @@
 from unicodedata import name
-from flask.views import MethodView
-from flask import request
-from apiflask import APIBlueprint, abort
 
-from .schemas import (
-    ColumnInSchema,
-    ColumnOutSchema,
-    PostInSchema,
-    PostOutSchema,
-    PostsSchema,
-    CommentInSchema,
-    CommentOutSchema,
-)
-from ..auth.views import auth
-from ...models import Post, Column, Comment
+from apiflask import abort
+from apiflask import APIBlueprint
+from flask import request
+from flask.views import MethodView
+
 from ...extensions import db
+from ...models import Column
+from ...models import Comment
+from ...models import Post
 from ...utils import clean_html
-from ..decorators import permission_required, can_edit
+from ..auth.views import auth
+from ..decorators import can_edit
+from ..decorators import permission_required
+from .schemas import ColumnInSchema
+from .schemas import ColumnOutSchema
+from .schemas import CommentInSchema
+from .schemas import CommentOutSchema
+from .schemas import PostInSchema
+from .schemas import PostOutSchema
+from .schemas import PostsSchema
 
 post_bp = APIBlueprint("post", __name__)
 

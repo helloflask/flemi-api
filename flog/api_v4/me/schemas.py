@@ -1,5 +1,9 @@
-from marshmallow import Schema, validate
-from marshmallow.fields import Function, String, Email, Url
+from marshmallow import Schema
+from marshmallow import validate
+from marshmallow.fields import Email
+from marshmallow.fields import Function
+from marshmallow.fields import String
+from marshmallow.fields import Url
 
 
 class PrivateUserOutputSchema(Schema):
@@ -28,7 +32,7 @@ class PrivateUserOutputSchema(Schema):
 
 class BasicProfileEditSchema(Schema):
     username = String(
-        required=True, validate=validate.Regexp("^[A-Za-z]([A-Za-z0-9_\-.]){2,15}$", 0)
+        required=True, validate=validate.Regexp(r"^[A-Za-z]([A-Za-z0-9_\-.]){2,15}$", 0)
     )
     email = Email(required=True)
     name = String(required=True, validate=validate.Length(1, 64))

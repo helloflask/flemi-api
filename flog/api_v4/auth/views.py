@@ -1,11 +1,16 @@
-from apiflask import APIBlueprint, abort
+from time import time
+
+from apiflask import abort
+from apiflask import APIBlueprint
 from authlib.jose import jwt
 from authlib.jose.errors import JoseError
 from flask import current_app
-from time import time
-from .schemas import LoginSchema, RegisterSchema
+
+from ...extensions import auth
+from ...extensions import db
 from ...models import User
-from ...extensions import db, auth
+from .schemas import LoginSchema
+from .schemas import RegisterSchema
 
 
 # create authentication blueprint for API v4

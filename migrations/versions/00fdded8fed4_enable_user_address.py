@@ -1,7 +1,7 @@
 """enable user address
 
 Revision ID: 00fdded8fed4
-Revises: 
+Revises:
 Create Date: 2022-04-21 11:49:47.979440
 
 """

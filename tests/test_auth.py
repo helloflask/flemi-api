@@ -3,10 +3,13 @@ from .base import Base
 
 class AuthTestCase(Base):
     def test_get_token(self):
-        resp = self.client.post("/auth/login", json={
-            "username": "test",
-            "password": "password",
-        })
+        resp = self.client.post(
+            "/auth/login",
+            json={
+                "username": "test",
+                "password": "password",
+            },
+        )
         data = resp.get_json()
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(data.get("auth_token").startswith("Bearer "))

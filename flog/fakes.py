@@ -1,19 +1,19 @@
 from random import randint
+
 from faker import Faker
 from flask import current_app
 from rich import print
 from rich.progress import track
+
+from .models import Column
+from .models import Comment
+from .models import db
+from .models import Group
+from .models import Message
+from .models import Notification
+from .models import Post
+from .models import User
 from .utils import lower_username
-from .models import (
-    db,
-    Post,
-    User,
-    Comment,
-    Notification,
-    Group,
-    Column,
-    Message,
-)
 
 fake = Faker()
 
@@ -107,9 +107,7 @@ def groups(count: int) -> None:
 def columns(count: int) -> None:
     progress_bar("columns", count)
     for _ in track(range(count), description="progress"):
-        posts = list(
-            set(Post.query.get(randint(1, Post.query.count())) for _ in range(5))
-        )
+        posts = list({Post.query.get(randint(1, Post.query.count())) for _ in range(5)})
         author = User.query.get(randint(1, User.query.count()))
         column = Column(name=fake.sentence(), author=author, posts=posts)
         db.session.add(column)

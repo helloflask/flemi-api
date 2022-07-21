@@ -1,12 +1,11 @@
 from apiflask import Schema
-from apiflask.fields import (
-    Integer,
-    Boolean,
-    String,
-    Nested,
-    List,
-)
+from apiflask.fields import Boolean
+from apiflask.fields import Integer
+from apiflask.fields import List
+from apiflask.fields import Nested
+from apiflask.fields import String
 from marshmallow.fields import Url
+
 from ...extensions import ma
 from ..user.schemas import PublicUserOutSchema
 
@@ -71,25 +70,6 @@ class PostsSchema(Schema):
     prev = Url()
     next = Url()
     total = Integer()
-
-
-class ColumnInSchema(Schema):
-    name = String(required=True)
-    post_ids = List(Integer())
-
-
-class ColumnOutSchema(Schema):
-    id = Integer()
-    name = String()
-    author = Nested(PublicUserOutSchema)
-    posts = List(Nested(lambda: PostOutSchema(only=("id", "title", "self"))))
-    self = ma.URLFor("post.column", values=dict(column_id="<id>"))
-
-
-class CommentInSchema(Schema):
-    body = String(required=True)
-    post_id = Integer(required=True)
-    reply_id = Integer()
 
 
 class CommentOutSchema(Schema):
