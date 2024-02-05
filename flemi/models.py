@@ -2,6 +2,7 @@
 MIT License
 Copyright (c) 2020 Andy Zhou
 """
+
 import hashlib
 import os
 from datetime import datetime
