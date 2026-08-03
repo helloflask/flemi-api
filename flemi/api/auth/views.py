@@ -12,7 +12,6 @@ from ...models import User
 from .schemas import LoginSchema
 from .schemas import RegisterSchema
 
-
 # create authentication blueprint for API v4
 auth_bp = APIBlueprint("auth", __name__, url_prefix="/auth")
 

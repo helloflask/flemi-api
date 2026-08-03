@@ -2,6 +2,7 @@
 MIT License
 Copyright (c) 2020 Andy Zhou
 """
+
 import os
 from os.path import abspath
 from os.path import dirname
