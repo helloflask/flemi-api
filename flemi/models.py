@@ -2,6 +2,7 @@
 MIT License
 Copyright (c) 2020 Andy Zhou
 """
+
 import hashlib
 import os
 from datetime import datetime
@@ -17,7 +18,6 @@ from werkzeug.security import generate_password_hash
 
 from .extensions import db
 from .shop_items import items
-
 
 group_user_table = db.Table(
     "group_user",
