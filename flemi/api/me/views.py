@@ -8,7 +8,6 @@ from .schemas import AvatarEditSchema
 from .schemas import BasicProfileEditSchema
 from .schemas import PrivateUserOutSchema
 
-
 me_bp = APIBlueprint("me", __name__, url_prefix="/me")
 
 
